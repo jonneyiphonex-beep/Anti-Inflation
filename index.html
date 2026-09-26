@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Language" content="ar, en, fr, es, ru, hi, ja, zh, he, tr">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>محرك مكافحة التضخم | Anti-Inflation Engine</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Arabic:wght@400;600;700&family=Noto+Sans+Hebrew:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700&family=Noto+Sans+SC:wght@400;600;700&family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Navigation & Status -->
+  <header class="navbar">
+    <div class="logo-container">
+      <div class="logo-icon" aria-hidden="true">🛡️</div>
+      <div class="logo-text">
+        <h1 data-i18n="brandTitle">مكافحة التضخم</h1>
+        <span data-i18n="brandSubtitle">Anti-Inflation Engine</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <label class="language-picker" for="languageSelect">
+        <span data-i18n="language">اللغة</span>
+        <select id="languageSelect" aria-label="Select language">
+          <option value="ar">العربية</option>
+          <option value="en">English</option>
+          <option value="fr">Français</option>
+          <option value="es">Español</option>
+          <option value="ru">Русский</option>
+          <option value="hi">हिन्दी</option>
+          <option value="ja">日本語</option>
+          <option value="zh">中文</option>
+          <option value="he">עברית</option>
+          <option value="tr">Türkçe</option>
+        </select>
+      </label>
+      <div class="status-badge" id="netStatus" aria-live="polite" aria-atomic="true">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span id="statusText">أوفلاين 100%</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="intro" aria-labelledby="introTitle">
+      <span class="intro-kicker" data-i18n="introKicker">لوحة متابعة الأسعار</span>
+      <h2 id="introTitle" data-i18n="introTitle">راقب أسعار السلع وتكلفة الوحدة</h2>
+      <p data-i18n="introText">سجّل السعر والكمية لكل سلعة، ثم قارن تكلفة الوحدة لمعرفة السلع الأعلى كلفة.</p>
+    </section>
+
+    <section class="metrics-grid">
+      <div class="metric-card metric-risk">
+        <span class="metric-label" data-i18n="metricInflation">مؤشر التضخم المالي</span>
+        <div class="metric-value danger" id="atRiskCount" aria-live="polite">—</div>
+        <span class="metric-sub" data-i18n="metricInflationSub">مقارنة بالشهر السابق</span>
+      </div>
+      <div class="metric-card metric-stable">
+        <span class="metric-label" data-i18n="metricShrink">تضخم الأوزان (Shrinkflation)</span>
+        <div class="metric-value warning" id="stableCount" aria-live="polite">—</div>
+        <span class="metric-sub" data-i18n="metricShrinkSub">نقص في حجم السلع</span>
+      </div>
+      <div class="metric-card metric-total">
+        <span class="metric-label" data-i18n="metricItems">السلع المرصودة</span>
+        <div class="metric-value primary" id="itemsCount" aria-live="polite">—</div>
+        <span class="metric-sub" data-i18n="metricItemsSub">عدد السلع المسجلة في قاعدة البيانات</span>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <div class="card form-card">
+        <div class="card-heading">
+          <span class="section-index" aria-hidden="true">01</span>
+          <h3 data-i18n="formTitle">تسجيل سلعة جديدة</h3>
+        </div>
+        <p class="form-hint" data-i18n="formHint">تُحسب تكلفة الوحدة تلقائياً، وما يزيد على 0.50 يُصنّف كمخاطر.</p>
+        <form id="trackerForm" novalidate>
+          <div class="form-group">
+            <label for="itemName" data-i18n="itemName">اسم السلعة</label>
+            <input type="text" id="itemName" data-i18n-placeholder="itemExample" placeholder="مثال: خبز، زيت، سكر..." required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="itemPrice" data-i18n="itemPrice">السعر الحالي</label>
+              <input type="number" id="itemPrice" data-i18n-placeholder="priceExample" placeholder="0.00" min="0.01" step="0.01" required>
+            </div>
+            <div class="form-group">
+              <label for="itemWeight" data-i18n="itemWeight">الوزن / الكمية</label>
+              <input type="number" id="itemWeight" data-i18n-placeholder="weightExample" placeholder="مثال: 500 جرام" min="0.01" step="0.01" required>
+            </div>
+          </div>
+          <div id="formFeedback" class="form-feedback" role="alert" aria-live="polite"></div>
+          <button type="submit" class="btn-primary" data-i18n="saveButton">حفظ في قاعدة البيانات</button>
+        </form>
+      </div>
+
+      <div class="card list-card">
+        <div class="card-header">
+          <div class="card-heading">
+            <span class="section-index" aria-hidden="true">02</span>
+            <h3 data-i18n="tableTitle">سجل الأسعار المرصودة</h3>
+          </div>
+          <span class="badge" data-i18n="localDb">PostgreSQL</span>
+        </div>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th data-i18n="tableItem">السلعة</th>
+                <th data-i18n="tablePrice">السعر</th>
+                <th data-i18n="tableWeight">الوزن/الكمية</th>
+                <th data-i18n="tableUnitCost">تكلفة الوحدة</th>
+                <th data-i18n="tableStatus">الحالة</th>
+              </tr>
+            </thead>
+            <tbody id="itemsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="ui-utils.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
